@@ -57,23 +57,28 @@ function start(list){
   pool=list||DATA.filter(d=>cat==="All"||d.cat===cat);
   idx=0;res={};for(const k in sideMap)delete sideMap[k];build();show();
 }
-/* Start with: term first, definition first, or mixed (random per card). Saved between visits. */
+/* Start with: question first, answer first, or mixed (random per card). Saved between visits. */
 const SKEY="wingman-start",sideMap={};
-let mode="term";try{const m=localStorage.getItem(SKEY);if(["term","def","mixed"].includes(m))mode=m}catch(e){}
+let mode="question";
+try{
+  let m=localStorage.getItem(SKEY);
+  if(m==="term")m="question";else if(m==="def")m="answer"; /* older saved values */
+  if(["question","answer","mixed"].includes(m))mode=m;
+}catch(e){}
 function sideFor(c){
   if(mode!=="mixed")return mode;
-  if(!(c.id in sideMap))sideMap[c.id]=Math.random()<.5?"term":"def";
+  if(!(c.id in sideMap))sideMap[c.id]=Math.random()<.5?"question":"answer";
   return sideMap[c.id];
 }
 function render(c){
-  const defFirst=sideFor(c)==="def";
-  const front=defFirst?c.a:c.q,back=defFirst?c.q:c.a;
-  const cls=t=>t===c.q?"q":"a"+(t.includes("\n")?"":" c");
-  $("front").className=cls(front);$("back").className=cls(back);
+  const ansFirst=sideFor(c)==="answer";
+  const front=ansFirst?c.a:c.q,back=ansFirst?c.q:c.a;
+  const cls=isQ=>isQ?"q":"a"+((isQ?c.q:c.a).includes("\n")?"":" c");
+  $("front").className=cls(!ansFirst);$("back").className=cls(ansFirst);
   $("front").textContent=front;$("back").textContent=back;
-  $("hint").textContent=defFirst?"Tap card to reveal the term":"Tap card to reveal the answer";
-  $("tagF").textContent=c.cat+(defFirst?" | Definition":" | Term");
-  $("tagB").textContent=c.cat+(defFirst?" | Term":" | Definition");
+  $("hint").textContent=ansFirst?"Tap card to reveal the question":"Tap card to reveal the answer";
+  $("tagF").textContent=c.cat+(ansFirst?" | Answer":" | Question");
+  $("tagB").textContent=c.cat+(ansFirst?" | Question":" | Answer");
 }
 function setSide(m,save=true){
   mode=m;

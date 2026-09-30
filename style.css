@@ -1,7 +1,7 @@
 :root{
   --al:#2f5bea;--ad:#7c9bff;
   color-scheme:light;
-  --bg:#f5f6f8;--card:#ffffff;--ink:#1c2230;--mute:#667085;--line:#dfe3ea;
+  --bg0:#f5f6f8;--bg:color-mix(in srgb,var(--acc) 11%,var(--bg0));--card:#ffffff;--ink:#1c2230;--mute:#667085;--line:#dfe3ea;
   --acc:var(--al);--acc-ink:#ffffff;--ok:#1a8a4a;--bad:#c73a3a;--back:color-mix(in srgb,var(--acc) 12%,var(--card));--shadow:0 4px 18px rgba(0,0,0,.06);
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -10,13 +10,13 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#12151c;--card:#1b2030;--ink:#e8ebf2;--mute:#9aa3b5;--line:#2c3348;
+    --bg0:#12151c;--bg:color-mix(in srgb,var(--acc) 14%,var(--bg0));--card:#1b2030;--ink:#e8ebf2;--mute:#9aa3b5;--line:#2c3348;
     --acc:var(--ad);--acc-ink:#101524;--ok:#4cc27f;--bad:#ff7a7a;--back:color-mix(in srgb,var(--acc) 16%,var(--card));--shadow:0 4px 18px rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#12151c;--card:#1b2030;--ink:#e8ebf2;--mute:#9aa3b5;--line:#2c3348;
+  --bg0:#12151c;--bg:color-mix(in srgb,var(--acc) 14%,var(--bg0));--card:#1b2030;--ink:#e8ebf2;--mute:#9aa3b5;--line:#2c3348;
   --acc:var(--ad);--acc-ink:#101524;--ok:#4cc27f;--bad:#ff7a7a;--back:color-mix(in srgb,var(--acc) 16%,var(--card));--shadow:0 4px 18px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
@@ -34,12 +34,23 @@ h1{font-size:clamp(1.15rem,4.5vw,1.5rem);margin:0 0 2px}
 .seg button:focus-visible,.chip:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
 
-/* Accent colors: --al is used in light mode, --ad in dark mode */
-:root[data-accent="violet"]{--al:#6d3fe0;--ad:#b299ff}
-:root[data-accent="teal"]{--al:#0b7f86;--ad:#4fd1d9}
+/* Accent colors: --al is used in light mode, --ad in dark mode.
+   The page background is tinted with the chosen color. */
+:root[data-accent="sky"]{--al:#0a78b5;--ad:#5cc4f5}
+:root[data-accent="cyan"]{--al:#0891b2;--ad:#5ed6ee}
+:root[data-accent="teal"]{--al:#0f766e;--ad:#4fd1c0}
 :root[data-accent="green"]{--al:#1a7f4b;--ad:#5fd68f}
+:root[data-accent="lime"]{--al:#4d7c0f;--ad:#b3e66b}
+:root[data-accent="yellow"]{--al:#a16207;--ad:#f5d74a}
 :root[data-accent="orange"]{--al:#b85a06;--ad:#ffab5c}
-:root[data-accent="rose"]{--al:#c2255c;--ad:#ff85ad}
+:root[data-accent="red"]{--al:#c62828;--ad:#ff7b7b}
+:root[data-accent="rose"]{--al:#be123c;--ad:#fb7185}
+:root[data-accent="pink"]{--al:#db2777;--ad:#f9a8d4}
+:root[data-accent="fuchsia"]{--al:#a21caf;--ad:#e879f9}
+:root[data-accent="purple"]{--al:#7e22ce;--ad:#c084fc}
+:root[data-accent="violet"]{--al:#6d3fe0;--ad:#b299ff}
+:root[data-accent="indigo"]{--al:#4338ca;--ad:#a5a3ff}
+:root[data-accent="brown"]{--al:#8a5a3c;--ad:#d1a17f}
 :root[data-accent="slate"]{--al:#475467;--ad:#b4bccb}
 
 /* Header controls */

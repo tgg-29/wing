@@ -90,6 +90,18 @@ function setTheme(mode,save=true){
 document.querySelectorAll("#themeSeg button").forEach(b=>b.onclick=()=>setTheme(b.dataset.mode));
 let saved="auto";try{saved=localStorage.getItem(KEY)||"auto"}catch(e){}
 setTheme(saved,false);
+
+/* Accent color: chosen from the dropdown and saved between visits. */
+const AKEY="wingman-accent",sel=document.getElementById("accent");
+function setAccent(name,save=true){
+  if(name&&name!=="blue")root.setAttribute("data-accent",name);else root.removeAttribute("data-accent");
+  sel.value=name||"blue";
+  if(save){try{name==="blue"?localStorage.removeItem(AKEY):localStorage.setItem(AKEY,name)}catch(e){}}
+}
+sel.onchange=()=>setAccent(sel.value);
+let savedAccent="blue";try{savedAccent=localStorage.getItem(AKEY)||"blue"}catch(e){}
+if(![...sel.options].some(o=>o.value===savedAccent))savedAccent="blue";
+setAccent(savedAccent,false);
 document.addEventListener("keydown",e=>{
   if(e.key===" "){e.preventDefault();flip()}
   else if(e.key==="ArrowRight"){if(idx<pool.length){idx++;show()}}

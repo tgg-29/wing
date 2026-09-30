@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wingman Flashcard Reviewer</title>
 <script>
-/* Apply saved theme before first paint to avoid a flash */
-try{var t=localStorage.getItem("wingman-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}
+/* Apply saved theme and accent before first paint to avoid a flash */
+try{var t=localStorage.getItem("wingman-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);var a=localStorage.getItem("wingman-accent");if(a&&a!=="blue")document.documentElement.setAttribute("data-accent",a)}catch(e){}
 </script>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -17,10 +17,23 @@ try{var t=localStorage.getItem("wingman-theme");if(t==="light"||t==="dark")docum
       <h1>Wingman Flashcard Reviewer</h1>
       <p class="sub">Roles, values, tools, procedures, and policies.</p>
     </div>
-    <div class="seg" id="themeSeg" role="group" aria-label="Color theme">
-      <button type="button" data-mode="auto" aria-pressed="true">Auto</button>
-      <button type="button" data-mode="light" aria-pressed="false">Light</button>
-      <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+    <div class="ctrls">
+      <div class="seg" id="themeSeg" role="group" aria-label="Color theme">
+        <button type="button" data-mode="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-mode="light" aria-pressed="false">Light</button>
+        <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+      </div>
+      <label class="pick"><span class="dot" aria-hidden="true"></span>
+        <select id="accent" aria-label="Accent color">
+          <option value="blue">Blue</option>
+          <option value="violet">Violet</option>
+          <option value="teal">Teal</option>
+          <option value="green">Green</option>
+          <option value="orange">Orange</option>
+          <option value="rose">Rose</option>
+          <option value="slate">Slate</option>
+        </select>
+      </label>
     </div>
   </div>
   <div class="chips" id="chips"></div>

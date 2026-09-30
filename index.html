@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wingman Flashcard Reviewer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Wingman Flashcard Reviewer</h1>
+  <p class="sub">Roles, values, tools, procedures, and policies.</p>
+  <div class="chips" id="chips"></div>
+  <div class="stats"><span id="pos"></span><span id="score"></span></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="scene" id="scene">
+    <div class="card" id="card">
+      <div class="face"><span class="tag" id="tagF"></span><div class="q" id="q"></div><span class="hint">Tap card to reveal answer</span></div>
+      <div class="face b"><span class="tag" id="tagB"></span><div class="a" id="a"></div></div>
+    </div>
+  </div>
+  <div class="done" id="done"><h2>Round complete</h2><p id="sum"></p>
+    <div class="row"><button class="btn" id="again">Restart deck</button><button class="btn ok" id="missed">Review missed cards</button></div></div>
+  <div id="ctrl">
+    <div class="row"><button class="btn" id="prev">Previous</button><button class="btn" id="flipBtn">Flip</button><button class="btn" id="next">Next</button></div>
+    <div class="row"><button class="btn no" id="miss">Needs review</button><button class="btn ok" id="got">Got it</button></div>
+    <div class="row"><button class="btn" id="shuf">Shuffle</button><button class="btn" id="theme">Toggle theme</button></div>
+    <div class="kb">Keyboard: Space to flip, arrow keys to move, 1 = needs review, 2 = got it</div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

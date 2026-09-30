@@ -55,7 +55,31 @@ function build(){
 }
 function start(list){
   pool=list||DATA.filter(d=>cat==="All"||d.cat===cat);
-  idx=0;res={};build();show();
+  idx=0;res={};for(const k in sideMap)delete sideMap[k];build();show();
+}
+/* Start with: term first, definition first, or mixed (random per card). Saved between visits. */
+const SKEY="wingman-start",sideMap={};
+let mode="term";try{const m=localStorage.getItem(SKEY);if(["term","def","mixed"].includes(m))mode=m}catch(e){}
+function sideFor(c){
+  if(mode!=="mixed")return mode;
+  if(!(c.id in sideMap))sideMap[c.id]=Math.random()<.5?"term":"def";
+  return sideMap[c.id];
+}
+function render(c){
+  const defFirst=sideFor(c)==="def";
+  const front=defFirst?c.a:c.q,back=defFirst?c.q:c.a;
+  const cls=t=>t===c.q?"q":"a"+(t.includes("\n")?"":" c");
+  $("front").className=cls(front);$("back").className=cls(back);
+  $("front").textContent=front;$("back").textContent=back;
+  $("hint").textContent=defFirst?"Tap card to reveal the term":"Tap card to reveal the answer";
+  $("tagF").textContent=c.cat+(defFirst?" | Definition":" | Term");
+  $("tagB").textContent=c.cat+(defFirst?" | Term":" | Definition");
+}
+function setSide(m,save=true){
+  mode=m;
+  document.querySelectorAll("#sideSeg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.side===m)));
+  if(save){try{localStorage.setItem(SKEY,m)}catch(e){}}
+  if(pool.length&&idx<pool.length)show();
 }
 function show(){
   const finished=idx>=pool.length;
@@ -69,7 +93,7 @@ function show(){
   const c=pool[idx];
   $("card").classList.remove("flip");
   $("pos").textContent=`Card ${idx+1} of ${pool.length}`;
-  $("q").textContent=c.q;$("a").textContent=c.a;$("tagF").textContent=c.cat;$("tagB").textContent=c.cat;
+  render(c);
 }
 const flip=()=>$("card").classList.toggle("flip");
 const go=d=>{idx=Math.max(0,idx+d);show()};
@@ -77,7 +101,7 @@ const mark=v=>{if(idx<pool.length){res[pool[idx].id]=v;idx++;show()}};
 $("card").onclick=flip;$("flipBtn").onclick=flip;
 $("next").onclick=()=>{if(idx<pool.length){idx++;show()}};$("prev").onclick=()=>go(-1);
 $("got").onclick=()=>mark(1);$("miss").onclick=()=>mark(0);
-$("shuf").onclick=()=>{shuffleArr(pool);idx=0;res={};show()};
+$("shuf").onclick=()=>{shuffleArr(pool);idx=0;res={};for(const k in sideMap)delete sideMap[k];show()};
 $("again").onclick=()=>start();
 $("missed").onclick=()=>{const ids=Object.keys(res).filter(k=>res[k]===0).map(Number);start(DATA.filter(d=>ids.includes(d.id)))};
 /* Theme: auto (follows system), light, or dark. Saved between visits. */
@@ -110,3 +134,5 @@ document.addEventListener("keydown",e=>{
   else if(e.key==="2")mark(1);
 });
 start();
+document.querySelectorAll("#sideSeg button").forEach(b=>b.onclick=()=>setSide(b.dataset.side));
+setSide(mode,false);

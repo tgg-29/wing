@@ -47,12 +47,20 @@ try{var t=localStorage.getItem("wingman-theme");if(t==="light"||t==="dark")docum
     </div>
   </div>
   <div class="chips" id="chips"></div>
+  <div class="mode">
+    <span class="lbl" id="startLbl">Start with</span>
+    <div class="seg" id="sideSeg" role="group" aria-labelledby="startLbl">
+      <button type="button" data-side="term" aria-pressed="true">Term</button>
+      <button type="button" data-side="def" aria-pressed="false">Definition</button>
+      <button type="button" data-side="mixed" aria-pressed="false">Mixed</button>
+    </div>
+  </div>
   <div class="stats"><span id="pos"></span><span id="score"></span></div>
   <div class="bar"><i id="prog"></i></div>
   <div class="scene" id="scene">
     <div class="card" id="card">
-      <div class="face"><span class="tag" id="tagF"></span><div class="q" id="q"></div><span class="hint">Tap card to reveal answer</span></div>
-      <div class="face b"><span class="tag" id="tagB"></span><div class="a" id="a"></div></div>
+      <div class="face"><span class="tag" id="tagF"></span><div class="q" id="front"></div><span class="hint" id="hint"></span></div>
+      <div class="face b"><span class="tag" id="tagB"></span><div class="a" id="back"></div></div>
     </div>
   </div>
   <div class="done" id="done"><h2>Round complete</h2><p id="sum"></p>

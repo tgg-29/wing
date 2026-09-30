@@ -80,7 +80,16 @@ $("got").onclick=()=>mark(1);$("miss").onclick=()=>mark(0);
 $("shuf").onclick=()=>{shuffleArr(pool);idx=0;res={};show()};
 $("again").onclick=()=>start();
 $("missed").onclick=()=>{const ids=Object.keys(res).filter(k=>res[k]===0).map(Number);start(DATA.filter(d=>ids.includes(d.id)))};
-$("theme").onclick=()=>{const r=document.documentElement;const dark=getComputedStyle(r).getPropertyValue("--bg").trim()==="#12151c";r.setAttribute("data-theme",dark?"light":"dark")};
+/* Theme: auto (follows system), light, or dark. Saved between visits. */
+const root=document.documentElement,KEY="wingman-theme";
+function setTheme(mode,save=true){
+  if(mode==="light"||mode==="dark")root.setAttribute("data-theme",mode);else root.removeAttribute("data-theme");
+  document.querySelectorAll("#themeSeg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mode===mode)));
+  if(save){try{mode==="auto"?localStorage.removeItem(KEY):localStorage.setItem(KEY,mode)}catch(e){}}
+}
+document.querySelectorAll("#themeSeg button").forEach(b=>b.onclick=()=>setTheme(b.dataset.mode));
+let saved="auto";try{saved=localStorage.getItem(KEY)||"auto"}catch(e){}
+setTheme(saved,false);
 document.addEventListener("keydown",e=>{
   if(e.key===" "){e.preventDefault();flip()}
   else if(e.key==="ArrowRight"){if(idx<pool.length){idx++;show()}}
